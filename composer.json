@@ -1,19 +1,19 @@
 {
-    "name": "topthink/think-captcha",
-    "description": "captcha package for thinkphp",
+    "name": "tobycroft/think-captcha",
+    "description": "thinkphp8 captcha 2026 version PHP8.5+",
     "authors": [
         {
-            "name": "yunwuxin",
-            "email": "448901948@qq.com"
+            "name": "tobycroft",
+            "email": "silverhawk@foxmail.com"
         }
     ],
-    "license": "Apache-2.0",
+    "license": "MIT",
     "require": {
-        "topthink/framework": "^6.0|^8.0"
+        "topthink/framework": "^8.0"
     },
     "autoload": {
         "psr-4": {
-            "think\\captcha\\": "src/"
+            "tobycroft\\captcha\\": "src/"
         },
         "files": [
             "src/helper.php"
@@ -22,11 +22,11 @@
     "extra": {
         "think": {
             "services": [
-                "think\\captcha\\CaptchaService"
+                "tobycroft\\captcha\\CaptchaService"
             ],
             "config":{
                 "captcha": "src/config.php"
-            }            
+            }
         }
     }
 }
