@@ -6,10 +6,10 @@
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: yunwuxin <448901948@qq.com>
+// | Author: TobyCroft <silverhawk@foxmail.com>
 // +----------------------------------------------------------------------
 
-namespace think\captcha;
+namespace tobycroft\captcha;
 
 use Closure;
 use Exception;
@@ -194,7 +194,7 @@ class Captcha
         imagecolorallocatealpha($this->im, $this->bg[0], $this->bg[1], $this->bg[2], $this->alpha);
 
         // 验证码字体随机颜色
-        $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
+        $this->color = imagecolorallocate($this->im, random_int(1, 150), random_int(1, 150), random_int(1, 150));
 
         // 验证码使用随机字体
         $ttfPath = __DIR__ . '/../assets/' . ($this->useZh ? 'zhttfs' : 'ttfs') . '/';
@@ -227,8 +227,8 @@ class Captcha
 
         foreach ($text as $index => $char) {
             $x     = $this->fontSize * ($index + 1) * ($this->math ? 1 : 1.5);
-            $y     = $this->fontSize + mt_rand(10, 20);
-            $angle = $this->math ? 0 : mt_rand(-40, 40);
+            $y     = $this->fontSize + random_int(10, 20);
+            $angle = $this->math ? 0 : random_int(-40, 40);
 
             imagettftext($this->im, (int) $this->fontSize, $angle, (int) $x, (int) $y, $this->color, $fontttf, $char);
         }
@@ -237,7 +237,7 @@ class Captcha
         // 输出图像
         imagepng($this->im);
         $content = ob_get_clean();
-        imagedestroy($this->im);
+        $this->im = null;
 
         // API调用模式
         if ($this->api) {
@@ -267,14 +267,14 @@ class Captcha
         $px = $py = 0;
 
         // 曲线前部分
-        $A = mt_rand(1, (int) ($this->imageH / 2)); // 振幅
-        $b = mt_rand((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // Y轴方向偏移量
-        $f = mt_rand((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
-        $T = mt_rand($this->imageH, $this->imageW * 2); // 周期
+        $A = random_int(1, (int) ($this->imageH / 2)); // 振幅
+        $b = random_int((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // Y轴方向偏移量
+        $f = random_int((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
+        $T = random_int($this->imageH, $this->imageW * 2); // 周期
         $w = (2 * M_PI) / $T;
 
         $px1 = 0; // 曲线横坐标起始位置
-        $px2 = mt_rand((int) ($this->imageW / 2), (int) ($this->imageW * 0.8)); // 曲线横坐标结束位置
+        $px2 = random_int((int) ($this->imageW / 2), (int) ($this->imageW * 0.8)); // 曲线横坐标结束位置
 
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
@@ -288,9 +288,9 @@ class Captcha
         }
 
         // 曲线后部分
-        $A   = mt_rand(1, (int) ($this->imageH / 2)); // 振幅
-        $f   = mt_rand((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
-        $T   = mt_rand($this->imageH, $this->imageW * 2); // 周期
+        $A   = random_int(1, (int) ($this->imageH / 2)); // 振幅
+        $f   = random_int((int) (-$this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
+        $T   = random_int($this->imageH, $this->imageW * 2); // 周期
         $w   = (2 * M_PI) / $T;
         $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
         $px1 = $px2;
@@ -316,11 +316,9 @@ class Captcha
     {
         $codeSet = '2345678abcdefhijkmnpqrstuvwxyz';
         for ($i = 0; $i < 10; $i++) {
-            //杂点颜色
-            $noiseColor = imagecolorallocate($this->im, mt_rand(150, 225), mt_rand(150, 225), mt_rand(150, 225));
+            $noiseColor = imagecolorallocate($this->im, random_int(150, 225), random_int(150, 225), random_int(150, 225));
             for ($j = 0; $j < 5; $j++) {
-                // 绘杂点
-                imagestring($this->im, 5, mt_rand(-10, $this->imageW), mt_rand(-10, $this->imageH), $codeSet[mt_rand(0, 29)], $noiseColor);
+                imagestring($this->im, 5, random_int(-10, $this->imageW), random_int(-10, $this->imageH), $codeSet[random_int(0, 29)], $noiseColor);
             }
         }
     }
@@ -348,6 +346,6 @@ class Captcha
         // Resample
         $bgImage = @imagecreatefromjpeg($gb);
         @imagecopyresampled($this->im, $bgImage, 0, 0, 0, 0, $this->imageW, $this->imageH, $width, $height);
-        @imagedestroy($bgImage);
+        $bgImage = null;
     }
 }

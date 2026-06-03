@@ -1,6 +1,6 @@
 <?php
 
-namespace think\captcha\facade;
+namespace tobycroft\captcha\facade;
 
 use think\Facade;
 
