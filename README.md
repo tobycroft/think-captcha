@@ -1,12 +1,20 @@
 # think-captcha
+thinkphp8+ PHP8.5+ captcha验证码类库
 
-thinkphp8 验证码类库
+# 区别
+
+- 支持 PHP8.5+
+- 支持 thinkphp8+
+
 
 ## 安装
 
 > composer require tobycroft/think-captcha
 
 ## 使用
+
+#### 详细 Demo
+- 你可以在 AOSSTP8这个项目中的 captcha 目录下查看详细的 Demo，涵盖了验证码的所有功能以及额外的骚操作
 
 ### 在控制器中输出验证码
 
